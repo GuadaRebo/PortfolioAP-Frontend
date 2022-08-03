@@ -1,0 +1,136 @@
+<div class="division"></div>
+ <div class="container margenes borde shadow" width="1337" height="505">
+  <h2>Experiencia Laboral
+
+    <fa-icon  
+    class="float-end fa-icon fa-xs mt-1"
+    [icon]="faPlus"
+    *ngIf="isAdmin"
+    data-bs-toggle="modal" 
+    data-bs-target="#ExpLaboralModal"
+    (click)="limpiarform()"
+    >
+     
+    </fa-icon>
+  </h2>
+
+
+  <section id="acerca" class="about" *ngFor="let dato of datos; let i = index"> 
+    
+     <div class="container margenes mt-0" width="21" height="21" >
+      
+      <fa-icon
+      class="float-end fa-icon"
+      
+      [icon]="faTrashCan"
+      (click)="eliminar(dato.id)"
+      *ngIf="isAdmin"
+    >      </fa-icon>
+      
+      
+      <fa-icon
+      class="float-end fa-icon"  
+      [icon]="faPencil"
+      *ngIf="isAdmin"
+      (click)="onEditExpLaboral(i)"
+      data-bs-toggle="modal" 
+      data-bs-target="#ExpLaboralModal" 
+      
+    >      </fa-icon>
+      
+    </div>
+     <div class="container margenes pt-4">
+       <div class="row">
+         <div class="col col-xl-2 me-0 pe-0"  >
+            <img src="/assets/{{dato.foto}}" alt="" width="148" height="137">         
+         </div>
+          <div class="col col-xl-10">
+             <div class="expyeduc ms-0 ps-0 me-4"  >
+                <h3>{{dato.posicion}}  </h3>
+                <h5>{{dato.fecha}}</h5>
+                <div class=" ">
+                
+                 <p class="pb-3 acerca-text mt-0" >  {{dato.descripcion}}</p>
+                </div>
+             </div>
+    </div>
+    </div>
+    </div>
+
+  </section>
+ </div>
+ <!-- Modal -->
+<div class="modal fade" id="ExpLaboralModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">Editar Experiencia Laboral</h5>
+         <button type="button" class="btn-close" (click)="limpiarform()" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+         <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <input type="hidden" name="id" formControlName="id">
+            <div class="mb-3">
+             <label for="message-text" class="col-form-label">Posición:</label>
+             <input formControlName="posicion"  class="form-control" id="texto" [ngClass]="{'is-invalid': posicion?.errors && posicion?.touched, 'is-valid': !posicion?.errors && posicion?.touched}">
+             
+             <div *ngIf="posicion?.invalid && posicion?.touched">
+               <div *ngIf="posicion?.errors?.['required']" class="text-danger">
+                   La posición es requerida.
+               </div>
+               <div *ngIf="posicion?.errors?.['minlength']" class="text-danger">
+                  La posición debe tener como  mínimo 5 caracteres.
+               </div>
+              
+             </div>
+           </div>         
+               
+           <div class="mb-3">
+             <label for="message-text" class="col-form-label">Período:</label>
+             <input formControlName="fecha"  class="form-control" id="texto" [ngClass]="{'is-invalid': fecha?.errors && fecha?.touched, 'is-valid': !fecha?.errors && fecha?.touched}">
+             <div *ngIf="fecha?.invalid && fecha?.touched" >
+               <div *ngIf="fecha?.errors?.['required']" class="text-danger">
+                   La fecha es requerida.
+               </div>
+               <div *ngIf="fecha?.errors?.['minlength']" class="text-danger">
+                  La fecha debe tener como  mínimo 5 caracteres.
+               </div>
+                     
+             </div>
+           </div>   
+           <div class="mb-3">
+             <label for="message-text" class="col-form-label">Descripción:</label>
+             <input formControlName="descripcion"  class="form-control" id="texto" [ngClass]="{'is-invalid':  descripcion?.errors &&  descripcion?.touched, 'is-valid': ! descripcion?.errors &&  descripcion?.touched}">
+             <div *ngIf=" descripcion?.invalid &&  descripcion?.touched">
+               <div *ngIf=" descripcion?.errors?.['required']" class="text-danger">
+                 La descripción es requerida.
+               </div>
+               <div *ngIf=" descripcion?.errors?.['minlength']" class="text-danger">
+                 La descripción debe tener como  mínimo 5 caracteres.
+               </div>
+                    
+             </div>
+           </div>   
+           <div class="mb-3">
+             <label for="message-text" class="col-form-label">Logo Empresa:</label>
+             <input formControlName="foto"  class="form-control" id="texto" [ngClass]="{'is-invalid': foto?.errors && foto?.touched, 'is-valid': !foto?.errors && foto?.touched}">
+             <div *ngIf="foto?.invalid && foto?.touched">
+               <div *ngIf="foto?.errors?.['required']" class="text-danger">
+                   La foto es requerida.
+               </div>
+               <div *ngIf="foto?.errors?.['minlength']" class="text-danger">
+                  La ruta de la imagen debe tener como  mínimo 5 caracteres.
+               </div>
+                    
+             </div>
+           </div>   
+           
+         </form>
+       </div>
+       <div class="modal-footer">
+         <button type="button" id="cerrarModalExpLaboral" class="btn btn-secondary" data-bs-dismiss="modal" (click)="limpiarform()">Cerrar</button>
+         <button type="submit" id="cerrarModalExpLaboral" [disabled]="form.invalid" class="btn btn-primary" (click)="onSubmit()">Enviar</button>
+       </div>
+     </div>
+   </div>
+ </div>
